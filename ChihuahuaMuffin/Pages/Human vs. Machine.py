@@ -28,36 +28,42 @@ example_set = ImageFolder(root=exampleImagePath,transform=transform)
 
 example_loader = DataLoader(example_set,batch_size=1,shuffle=True)
 
-if st.button("start!"):
-    game_end = False
-    human_count = 0
-    robot_count = 0
-    while game_end == False:
-        next_image, label = next(iter(example_loader))
-        st.image(transforms.ToPILImage()(next_image.squeeze()))
-        output = model(next_image)
-        output = round(float(output))
+@st.cache(allow_output_mutation=True)
+def get_human_count():
+    return {"human_count": 0}
 
-        button_end = False
+@st.cache(allow_output_mutation=True)
+def get_robot_count():
+    return {"robot_count": -1}
 
-        if output == label:
-            robot_count += 1
+def generateNewImage():
+    next_image, label = next(iter(example_loader))
+    st.image(transforms.ToPILImage()(next_image.squeeze()))
+    output = model(next_image)
+    output = round(float(output))
+    return output, label
 
-        while button_end == False:
-            if st.button("Chihuahua") and label == 0:
-                human_count += 1
-                button_end = True
-            elif st.button("Muffin") and label == 1:
-                human_count += 1
-                button_end = True
-            time.sleep(60)
+robot_count = get_robot_count()
+human_count = get_human_count()
 
-        if human_count == 10 and robot_count == 10:
-            st.write("Tie!")
-            game_end = True
-        elif robot_count == 10:
-            st.write("You Lose!")
-            game_end = True
-        elif human_count == 10:
-            st.write("You win!")
-            game_end = True
+output, label = generateNewImage()
+if output == label:
+    robot_count["robot_count"] += 1
+
+if st.button("Chihuahua") and label == 0:
+    human_count["human_count"] += 1
+
+if st.button("Muffin") and label == 1:
+    human_count["human_count"] += 1
+
+if human_count["human_count"] == 10 and robot_count["robot_count"] == 10:
+    st.header("Tie!")
+elif robot_count["robot_count"] == 10:
+    st.header("You Lose!")
+elif human_count["human_count"] == 10:
+    st.header("You win!")    
+
+st.write("human: " + str(human_count["human_count"]))
+st.write("AI: " + str(robot_count["robot_count"]))
+
+
