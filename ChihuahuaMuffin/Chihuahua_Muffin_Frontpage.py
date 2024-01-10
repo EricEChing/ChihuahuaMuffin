@@ -16,7 +16,7 @@ st.sidebar.success("Select an option above.")
 
 
 st.image("/mount/src/chihuahuamuffin/ChihuahuaMuffin/archive(1)/chimufgrid.jpg")
-st.image("archive(1)/DaThinka.jpg")
+st.image("/mount/src/chihuahuamuffin/ChihuahuaMuffin/archive(1)/DaThinka.jpg")
 
 
 # command to run in browser
