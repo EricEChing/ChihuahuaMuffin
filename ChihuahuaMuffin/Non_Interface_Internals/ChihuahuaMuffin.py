@@ -1,9 +1,4 @@
-import torch
-import numpy as np
-from torch.utils.data import ConcatDataset, Dataset
 import torch.nn as nn
-import torch.optim as optim
-from chiMufData import *
 
 num_epochs = 20
 BATCH_SIZE = 60

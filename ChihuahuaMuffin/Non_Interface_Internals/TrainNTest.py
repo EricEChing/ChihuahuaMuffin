@@ -1,10 +1,17 @@
 import torch
-import numpy as np
-from torch.utils.data import ConcatDataset, Dataset
 import torch.nn as nn
 import torch.optim as optim
-from ChihuahuaMuffin import *
-from chiMufData import *
+from Non_Interface_Internals.ChihuahuaMuffin import *
+from torchvision import transforms
+from torchvision.datasets import ImageFolder
+from torch.utils.data import DataLoader
+
+transform = transforms.Compose([
+
+
+    transforms.Resize((256,256)),
+    transforms.ToTensor(),
+])
 
 train_path = 'archive(1)/train'
 test_path = 'archive(1)/test'
